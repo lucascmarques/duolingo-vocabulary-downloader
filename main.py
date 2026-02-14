@@ -42,7 +42,7 @@ def extract_vocabulary(user):
 def save_vocabulary_to_file(vocabulary, file_path):
     with open(file_path, "w", encoding="utf-8") as file:
         for (word, translation) in vocabulary:
-            file.write(f"{word}\n")
+            file.write(f"{word};{translation}\n")
 
 if __name__ == '__main__':
     user = input("Username: ")
