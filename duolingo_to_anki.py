@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 DUOME_URL = "https://www.duome.eu"
 DUOME_VOCABULARY_PATH = "/vocabulary/en/pl"
 
+
 def get_user_id(user):
     url = f"{DUOME_URL}/{user}/en/pl"
     html = get_html(url)
@@ -39,10 +40,12 @@ def extract_vocabulary(user):
         vocabulary.append((word_polish, word_english_translation))
     return vocabulary
 
+
 def save_vocabulary_to_file(vocabulary, file_path):
     with open(file_path, "w", encoding="utf-8") as file:
         for (word, translation) in vocabulary:
             file.write(f"{word};{translation}\n")
+
 
 if __name__ == '__main__':
     user = input("Username: ")
