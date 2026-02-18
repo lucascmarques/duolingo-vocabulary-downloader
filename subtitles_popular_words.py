@@ -2,19 +2,24 @@ from collections import Counter
 from pathlib import Path
 
 import regex as re
+import spacy
 
 FILES_PATH = Path("subtitles/")
 KNOWN_WORDS_PATH = Path("files/known_words.txt")
+
 
 def find_popular_words():
     print("Finding popular words...")
     counts = Counter()
     words_regex = re.compile(r"\p{L}+")
+    nlp = spacy.load("pl_core_news_md")
     for file in FILES_PATH.iterdir():
         for line in file.open("r"):
             words = words_regex.findall(line)
-            words = [w.lower() for w in words]
-            counts.update(words)
+            words_lower_case = [w.lower() for w in words]
+            docs = nlp.pipe(words_lower_case, batch_size=1000)
+            words_lower_case = [doc[0].lemma_ for doc in docs]
+            counts.update(words_lower_case)
     return counts
 
 def remove_known(words: Counter):
